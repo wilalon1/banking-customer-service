@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: Customer Service API
+  version: 1.0.0
+  description: Microservice for managing bank customers
+
+servers:
+  - url: http://localhost:8081
+
+paths:
+
+  /api/customers:
+    post:
+      summary: Create customer
+      tags:
+        - Customers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        "201":
+          description: Customer created
+
+    get:
+      summary: Get all customers
+      tags:
+        - Customers
+      responses:
+        "200":
+          description: List of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+
+  /api/customers/{id}:
+    get:
+      summary: Get customer by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Customer found
+
+    put:
+      summary: Update customer
+      parameters:
+        - name: id
+          in: path
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        "200":
+          description: Customer updated
+
+    delete:
+      summary: Delete customer
+      parameters:
+        - name: id
+          in: path
+          required: true
+      responses:
+        "204":
+          description: Customer deleted
+
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        documentNumber:
+          type: string
+        customerType:
+          type: string
+          enum: [PERSONAL, BUSINESS]
+        email:
+          type: string
+        phone:
+          type: string

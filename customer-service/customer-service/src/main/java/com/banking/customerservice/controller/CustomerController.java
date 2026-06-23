@@ -7,82 +7,42 @@ import com.banking.customerservice.service.CustomerService;
 import io.reactivex.rxjava3.core.*;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 @RestController
 @RequestMapping("/api/customers")
+@RequiredArgsConstructor
 public class CustomerController {
-
-
 
     private final CustomerService service;
 
-
-
-    public CustomerController(
-            CustomerService service){
-
-        this.service = service;
-
-    }
-
-
-
     @PostMapping
-    public Single<Customer> create(
-            @RequestBody Customer customer){
-
-
+    public Mono<Customer> create(@RequestBody Customer customer) {
         return service.create(customer);
-
     }
-
-
-
 
     @GetMapping
-    public Observable<Customer> findAll(){
-
-
+    public Flux<Customer> findAll() {
         return service.findAll();
-
     }
-
-
-
 
     @GetMapping("/{id}")
-    public Maybe<Customer> findById(
-            @PathVariable String id){
-
-
+    public Mono<Customer> findById(@PathVariable String id) {
         return service.findById(id);
-
     }
-
-
 
     @PutMapping("/{id}")
-    public Single<Customer> update(
-            @PathVariable String id,
-            @RequestBody Customer customer){
-
-
-        return service.update(id,customer);
-
+    public Mono<Customer> update(@PathVariable String id,
+                                 @RequestBody Customer customer) {
+        return service.update(id, customer);
     }
-
-
 
     @DeleteMapping("/{id}")
-    public Completable delete(
-            @PathVariable String id){
-
-
+    public Mono<Void> delete(@PathVariable String id) {
         return service.delete(id);
-
     }
-
-
 }

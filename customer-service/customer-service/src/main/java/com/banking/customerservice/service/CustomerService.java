@@ -2,26 +2,19 @@ package com.banking.customerservice.service;
 
 import com.banking.customerservice.model.Customer;
 import io.reactivex.rxjava3.core.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 public interface CustomerService {
 
+    Mono<Customer> create(Customer customer);
 
-    Single<Customer> create(Customer customer);
+    Flux<Customer> findAll();
 
+    Mono<Customer> findById(String id);
 
-    Observable<Customer> findAll();
+    Mono<Customer> update(String id, Customer customer);
 
-
-    Maybe<Customer> findById(String id);
-
-
-    Single<Customer> update(
-            String id,
-            Customer customer
-    );
-
-
-    Completable delete(String id);
-
+    Mono<Void> delete(String id);
 }
