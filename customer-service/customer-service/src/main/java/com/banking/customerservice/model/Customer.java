@@ -18,4 +18,12 @@ public class Customer {
     private String documentNumber;
     private String customerType;
     private String email;
+
+    // NUEVO
+    // NORMAL / VIP / PYME
+    private String profile;
+
+
+    // indica si tiene tarjeta de crédito
+    private Boolean hasCreditCard;
 }

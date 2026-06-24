@@ -15,34 +15,53 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/customers")
-@RequiredArgsConstructor
 public class CustomerController {
+
 
     private final CustomerService service;
 
-    @PostMapping
-    public Mono<Customer> create(@RequestBody Customer customer) {
-        return service.create(customer);
+
+    public CustomerController(CustomerService service){
+        this.service = service;
     }
+
+
 
     @GetMapping
-    public Flux<Customer> findAll() {
+    public Observable<Customer> findAll(){
+
         return service.findAll();
+
     }
+
+
+
+    @PostMapping
+    public Single<Customer> create(
+            @RequestBody Customer customer){
+
+        return service.create(customer);
+
+    }
+
+
 
     @GetMapping("/{id}")
-    public Mono<Customer> findById(@PathVariable String id) {
+    public Single<Customer> findById(
+            @PathVariable String id){
+
         return service.findById(id);
+
     }
 
-    @PutMapping("/{id}")
-    public Mono<Customer> update(@PathVariable String id,
-                                 @RequestBody Customer customer) {
-        return service.update(id, customer);
-    }
+
 
     @DeleteMapping("/{id}")
-    public Mono<Void> delete(@PathVariable String id) {
+    public Completable delete(
+            @PathVariable String id){
+
         return service.delete(id);
+
     }
+
 }
