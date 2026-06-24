@@ -1,0 +1,27 @@
+@startuml
+actor Client
+
+participant "API Gateway" as APIGW
+participant "Eureka Server" as EUREKA
+participant "Customer Controller" as CTRL
+participant "Customer Service (RxJava)" as SVC
+participant "MongoDB Reactive Repository" as REPO
+
+Client -> APIGW: POST /api/customers (JSON)
+
+APIGW -> EUREKA: Resolve CUSTOMER-SERVICE
+EUREKA --> APIGW: Instance metadata (host:port)
+
+APIGW -> CTRL: Forward request
+
+CTRL -> SVC: createCustomer(customer)
+
+SVC -> REPO: save(customer)
+REPO --> SVC: Mono<Customer>
+
+SVC --> CTRL: Single<Customer>
+
+CTRL --> APIGW: HTTP 201 + JSON
+
+APIGW --> Client: Response
+@enduml
